@@ -1,0 +1,213 @@
+:root {
+  --bg:          #0a1628;
+  --bg-module:   #0f1e35;
+  --accent:      #c9a84c;
+  --accent-dim:  rgba(201, 168, 76, 0.25);
+  --text:        #e8e4d8;
+  --text-muted:  #7a8fa8;
+  --text-dim:    #3d4f68;
+  --red:         #c0392b;
+  --loss:        #3d4f68;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Raleway', sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Grid ──────────────────────────────────────── */
+.mirror {
+  display: grid;
+  grid-template-columns: 300px 1fr 360px;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  padding: 48px;
+  gap: 0 24px;
+}
+
+.top-left   { grid-column: 1; grid-row: 1; }
+.top-center { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: center; }
+.top-right  { grid-column: 3; grid-row: 1; text-align: right; }
+.mid-center { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; }
+.bot-left   { grid-column: 1; grid-row: 3; }
+.bot-right  { grid-column: 3; grid-row: 3; text-align: right; }
+
+/* ── Module header ─────────────────────────────── */
+.module-header {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--accent-dim);
+  padding-bottom: 6px;
+  margin-bottom: 12px;
+}
+
+/* ── Clock ─────────────────────────────────────── */
+.clock-time {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 72px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--text);
+  line-height: 1;
+  white-space: nowrap;
+}
+.clock-ampm {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 24px;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.clock-date {
+  font-size: 17px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+.clock-week {
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── Weather ───────────────────────────────────── */
+.weather-icon  { font-size: 52px; line-height: 1; }
+.weather-temp  { font-size: 36px; font-weight: 400; color: var(--text); margin-top: 6px; }
+.weather-desc  {
+  font-size: 13px; color: var(--text-muted); font-weight: 300;
+  text-transform: uppercase; letter-spacing: 2px; margin-top: 4px;
+}
+.weather-feels { font-size: 13px; color: var(--text-dim); margin-top: 3px; }
+
+.forecast-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--text);
+  padding: 4px 0;
+  font-weight: 300;
+}
+.forecast-day  { width: 90px; color: var(--text-muted); text-align: left; }
+.forecast-icon { width: 26px; text-align: center; }
+.forecast-temp { width: 48px; text-align: right; color: var(--text); }
+
+/* ── Phillies ──────────────────────────────────── */
+.phillies-panel {
+  width: 100%;
+  border: 1px solid var(--accent-dim);
+  border-radius: 4px;
+  padding: 14px 20px 16px;
+  background: var(--bg-module);
+}
+.phillies-record {
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 2px;
+  font-weight: 300;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.phillies-row {
+  display: grid;
+  grid-template-columns: 28px 46px 1fr 28px 28px 60px;
+  align-items: center;
+  gap: 0 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 15px;
+}
+.phillies-row:last-child { border-bottom: none; }
+
+.pill {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.pill.w { color: var(--accent); border: 1px solid var(--accent-dim); }
+.pill.l { color: var(--text-dim); border: 1px solid var(--text-dim); }
+
+.p-opp   { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+.p-gap   { flex: 1; }
+.p-phi   { font-family: 'Roboto Mono', monospace; font-size: 16px; font-weight: 400; color: var(--text); text-align: right; }
+.p-phi.win { color: var(--accent); }
+.p-sep   { font-size: 13px; color: var(--text-dim); text-align: center; }
+.p-opp-s { font-family: 'Roboto Mono', monospace; font-size: 16px; font-weight: 300; color: var(--text-muted); text-align: right; }
+.p-date  { font-size: 12px; color: var(--text-dim); text-align: right; white-space: nowrap; }
+
+.phillies-tonight {
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--accent-dim);
+}
+.phillies-tonight span { color: var(--accent); }
+
+/* ── Compliment ────────────────────────────────── */
+.compliment {
+  font-size: 40px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text);
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.3;
+  text-shadow: 0 0 60px rgba(201,168,76,0.12);
+  transition: opacity 1s ease;
+}
+
+/* ── Calendar ──────────────────────────────────── */
+.cal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.cal-title { font-size: 16px; font-weight: 400; color: var(--text); flex: 1; padding-right: 12px; }
+.cal-date  { font-size: 14px; color: var(--accent); font-weight: 300; white-space: nowrap; }
+
+/* ── News ──────────────────────────────────────── */
+.news-item {
+  border-left: 2px solid var(--accent-dim);
+  padding-left: 14px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+.news-title  { font-size: 16px; font-weight: 400; color: var(--text); line-height: 1.45; }
+.news-source {
+  font-size: 10px; color: var(--text-dim); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 5px;
+}
+
+/* ── Fade in ───────────────────────────────────── */
+.module { animation: fadeIn 0.9s ease both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
