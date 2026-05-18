@@ -104,6 +104,16 @@ async function loadWeather() {
 loadWeather();
 setInterval(loadWeather, 10 * 60 * 1000);
 
+// ── MLB team ID → abbreviation (abbreviation not in schedule API) ─
+const TEAM_ABBR = {
+  108:'LAA', 109:'ARI', 110:'BAL', 111:'BOS', 112:'CHC',
+  113:'CIN', 114:'CLE', 115:'COL', 116:'DET', 117:'HOU',
+  118:'KC',  119:'LAD', 120:'WSH', 121:'NYM', 133:'OAK',
+  134:'PIT', 135:'SD',  136:'SEA', 137:'SF',  138:'STL',
+  139:'TB',  140:'TEX', 141:'TOR', 142:'MIN', 143:'PHI',
+  144:'ATL', 145:'CWS', 146:'MIA', 147:'NYY', 158:'MIL',
+};
+
 // ── Phillies — past 5 game results ───────────────────────────
 async function loadPhillies() {
   try {
@@ -151,58 +161,54 @@ async function loadPhillies() {
       const phiS    = phi?.score ?? '?';
       const oppS    = opp?.score ?? '?';
       const won     = Number(phiS) > Number(oppS);
-      const oppAbbr = opp?.team?.abbreviation || '???';
+      const oppAbbr = TEAM_ABBR[opp?.team?.id] || opp?.team?.abbreviation || '???';
 
       const gameDate = new Date(g.gameDate || g.dateStr + 'T00:00:00');
       const dateLabel = gameDate.toLocaleDateString('en-US',
         { month: 'short', day: 'numeric', timeZone: CONFIG.timezone });
 
-      return `<div class="phillies-row">
-        <span class="pill ${won ? 'w' : 'l'}">${won ? 'W' : 'L'}</span>
-        <span class="p-opp">${oppAbbr}</span>
-        <span class="p-gap"></span>
-        <span class="p-phi ${won ? 'win' : ''}">${phiS}</span>
-        <span class="p-sep">–</span>
-        <span class="p-opp-s">${oppS}</span>
+      const scoreStr = won
+        ? `<span class="p-score-win">${phiS}–${oppS}</span>`
+        : `<span class="p-score-loss">${phiS}–${oppS}</span>`;
+
+      return `<div class="p-row">
+        <span class="p-wl ${won ? 'w' : 'l'}">${won ? 'W' : 'L'}</span>
+        <span class="p-team">${oppAbbr}</span>
+        ${scoreStr}
         <span class="p-date">${dateLabel}</span>
       </div>`;
     }).join('');
 
     let tonightHtml = '';
     if (tonightGame) {
-      const isHome   = tonightGame.teams?.home?.team?.id === 143;
-      const opp      = isHome ? tonightGame.teams.away : tonightGame.teams.home;
-      const oppAbbr  = opp?.team?.abbreviation || '???';
-      const isLive   = tonightGame.status?.detailedState === 'In Progress';
+      const isHome    = tonightGame.teams?.home?.team?.id === 143;
+      const opp       = isHome ? tonightGame.teams.away : tonightGame.teams.home;
+      const oppAbbr   = TEAM_ABBR[opp?.team?.id] || opp?.team?.abbreviation || '???';
+      const isLive    = tonightGame.status?.detailedState === 'In Progress';
 
       if (isLive) {
-        const phi      = isHome ? tonightGame.teams.home : tonightGame.teams.away;
-        const oppTeam  = isHome ? tonightGame.teams.away : tonightGame.teams.home;
-        const inning   = tonightGame.linescore?.currentInning || '';
-        const half     = tonightGame.linescore?.inningHalf || '';
+        const phi       = isHome ? tonightGame.teams.home : tonightGame.teams.away;
+        const oppTeam   = isHome ? tonightGame.teams.away : tonightGame.teams.home;
+        const inning    = tonightGame.linescore?.currentInning || '';
+        const half      = tonightGame.linescore?.inningHalf || '';
         const inningStr = inning ? `${half === 'Top' ? '▲' : '▼'}${inning}` : 'Live';
-        tonightHtml = `<div class="phillies-tonight">
-          <span>${inningStr}</span> &nbsp; PHI <span>${phi?.score ?? '–'}</span> · ${oppAbbr} <span>${oppTeam?.score ?? '–'}</span>
-        </div>`;
+        tonightHtml = `<div class="p-tonight">${inningStr} &nbsp; PHI ${phi?.score ?? '–'} · ${oppAbbr} ${oppTeam?.score ?? '–'}</div>`;
       } else {
         const gameTime = tonightGame.gameDate
           ? new Date(tonightGame.gameDate).toLocaleTimeString('en-US',
               { hour: 'numeric', minute: '2-digit', timeZone: CONFIG.timezone })
           : '';
-        tonightHtml = `<div class="phillies-tonight">Tonight vs <span>${oppAbbr}</span> · ${gameTime}</div>`;
+        tonightHtml = `<div class="p-tonight">Tonight vs ${oppAbbr} · ${gameTime}</div>`;
       }
     }
 
     document.getElementById('phillies').innerHTML = `
-      <div class="phillies-panel">
-        ${record ? `<div class="phillies-record">${record}</div>` : ''}
-        ${rowsHtml || '<div class="phillies-record">No recent results</div>'}
-        ${tonightHtml}
-      </div>`;
+      ${record ? `<div class="p-record">${record}</div>` : ''}
+      ${rowsHtml || '<div class="p-record">No recent results</div>'}
+      ${tonightHtml}`;
   } catch (e) {
     console.error('Phillies error:', e);
-    document.getElementById('phillies').innerHTML =
-      '<div class="phillies-panel"><div class="phillies-record">—</div></div>';
+    document.getElementById('phillies').innerHTML = '<div class="p-record">—</div>';
   }
 }
 loadPhillies();

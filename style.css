@@ -111,61 +111,87 @@ body {
 .forecast-temp { width: 48px; text-align: right; color: var(--text); }
 
 /* ── Phillies ──────────────────────────────────── */
-.phillies-panel {
-  width: 100%;
-  border: 1px solid var(--accent-dim);
-  border-radius: 4px;
-  padding: 14px 20px 16px;
-  background: var(--bg-module);
-}
-.phillies-record {
+.p-record {
   font-size: 13px;
   color: var(--accent);
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   font-weight: 300;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   text-align: center;
 }
-.phillies-row {
-  display: grid;
-  grid-template-columns: 28px 46px 1fr 28px 28px 60px;
-  align-items: center;
-  gap: 0 8px;
-  padding: 5px 0;
+.p-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 6px 0;
   border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 15px;
 }
-.phillies-row:last-child { border-bottom: none; }
+.p-row:last-of-type { border-bottom: none; }
 
-.pill {
+.p-wl {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
-  text-align: center;
-  padding: 2px 5px;
-  border-radius: 3px;
+  width: 12px;
+  flex-shrink: 0;
 }
-.pill.w { color: var(--accent); border: 1px solid var(--accent-dim); }
-.pill.l { color: var(--text-dim); border: 1px solid var(--text-dim); }
+.p-wl.w { color: var(--accent); }
+.p-wl.l { color: var(--text-dim); }
 
-.p-opp   { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
-.p-gap   { flex: 1; }
-.p-phi   { font-family: 'Roboto Mono', monospace; font-size: 16px; font-weight: 400; color: var(--text); text-align: right; }
-.p-phi.win { color: var(--accent); }
-.p-sep   { font-size: 13px; color: var(--text-dim); text-align: center; }
-.p-opp-s { font-family: 'Roboto Mono', monospace; font-size: 16px; font-weight: 300; color: var(--text-muted); text-align: right; }
-.p-date  { font-size: 12px; color: var(--text-dim); text-align: right; white-space: nowrap; }
+.p-team {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  width: 36px;
+  flex-shrink: 0;
+}
+.p-score-win  { font-family: 'Roboto Mono', monospace; font-size: 15px; color: var(--accent); flex: 1; }
+.p-score-loss { font-family: 'Roboto Mono', monospace; font-size: 15px; color: var(--text-muted); flex: 1; }
 
-.phillies-tonight {
-  font-size: 13px;
+.p-date {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  margin-left: auto;
+}
+.p-tonight {
+  font-size: 12px;
   color: var(--text-muted);
   letter-spacing: 1px;
   text-align: center;
-  margin-top: 12px;
-  padding-top: 10px;
+  margin-top: 10px;
+  padding-top: 8px;
   border-top: 1px solid var(--accent-dim);
 }
-.phillies-tonight span { color: var(--accent); }
+
+/* ── EA Crest watermark (mid-center, behind compliment) ─── */
+.crest-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.crest-img {
+  position: absolute;
+  width: 220px;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── EA Logo (top-left, under clock) ───────────── */
+.ea-logo {
+  display: block;
+  width: 120px;
+  opacity: 0.55;
+  margin-top: 18px;
+  filter: brightness(0) invert(1);
+}
 
 /* ── Compliment ────────────────────────────────── */
 .compliment {
