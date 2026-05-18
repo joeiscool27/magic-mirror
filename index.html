@@ -20,7 +20,7 @@
 
     .mirror {
       display: grid;
-      grid-template-columns: 320px 1fr 380px;
+      grid-template-columns: 300px 1fr 360px;
       grid-template-rows: auto 1fr auto;
       height: 100vh;
       padding: 40px;
@@ -28,6 +28,7 @@
     }
 
     .top-left   { grid-column: 1; grid-row: 1; }
+    .top-center { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; align-items: center; }
     .top-right  { grid-column: 3; grid-row: 1; text-align: right; }
     .mid-center { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; }
     .bot-left   { grid-column: 1; grid-row: 3; }
@@ -48,11 +49,21 @@
     /* ── Clock ─────────────────────────────────── */
     .clock-time {
       font-family: 'Roboto Mono', monospace;
-      font-size: 64px;
+      font-size: 56px;
       font-weight: 300;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       color: #1a1a1a;
       line-height: 1;
+      white-space: nowrap;
+    }
+    .clock-ampm {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 22px;
+      font-weight: 300;
+      color: #aaa;
+      letter-spacing: 2px;
+      margin-left: 6px;
+      vertical-align: middle;
     }
     .clock-date {
       font-size: 14px;
@@ -60,7 +71,7 @@
       letter-spacing: 4px;
       text-transform: uppercase;
       color: #777;
-      margin-top: 6px;
+      margin-top: 8px;
     }
     .clock-week {
       font-size: 11px;
@@ -68,13 +79,7 @@
       letter-spacing: 3px;
       color: #aaa;
       text-transform: uppercase;
-      margin-top: 2px;
-    }
-    .clock-sun {
-      font-size: 10px;
-      color: #999;
-      letter-spacing: 1px;
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
     /* ── Weather ───────────────────────────────── */
@@ -100,6 +105,85 @@
     .forecast-icon { width: 24px; text-align: center; }
     .forecast-temp { width: 46px; text-align: right; }
 
+    /* ── Phillies ──────────────────────────────── */
+    .phillies-header {
+      width: 100%;
+      text-align: center;
+    }
+    .phillies-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin: 10px 0 6px;
+    }
+    .phillies-team {
+      text-align: center;
+      min-width: 60px;
+    }
+    .phillies-abbr {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .phillies-score {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 44px;
+      font-weight: 300;
+      line-height: 1;
+      color: #1a1a1a;
+    }
+    .phillies-score.win  { color: #b4001e; }
+    .phillies-score.loss { color: #ccc; }
+    .phillies-sep {
+      font-size: 28px;
+      color: #ddd;
+      font-weight: 300;
+      padding-bottom: 2px;
+    }
+    .phillies-status {
+      font-size: 10px;
+      color: #aaa;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .phillies-record {
+      font-size: 12px;
+      color: #8b6e3d;
+      letter-spacing: 2px;
+      text-align: center;
+      margin-top: 5px;
+      font-weight: 300;
+    }
+    .phillies-next {
+      font-size: 12px;
+      color: #999;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-top: 8px;
+      font-weight: 300;
+    }
+    .phillies-upcoming {
+      text-align: center;
+      margin: 10px 0 6px;
+    }
+    .phillies-upcoming-teams {
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .phillies-upcoming-time {
+      font-size: 12px;
+      color: #777;
+      letter-spacing: 1px;
+    }
+
     /* ── Compliment ────────────────────────────── */
     .compliment {
       font-size: 32px;
@@ -118,8 +202,8 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      padding: 4px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
     }
     .cal-title { font-size: 14px; font-weight: 400; color: #333; flex: 1; padding-right: 10px; }
     .cal-date  { font-size: 12px; color: #8b6e3d; font-weight: 300; white-space: nowrap; }
@@ -127,13 +211,13 @@
     /* ── News ──────────────────────────────────── */
     .news-item {
       border-right: 2px solid rgba(139,110,61,0.3);
-      padding-right: 12px;
-      margin-bottom: 14px;
+      padding-right: 14px;
+      margin-bottom: 16px;
     }
-    .news-title  { font-size: 14px; font-weight: 400; color: #1a1a1a; line-height: 1.3; }
+    .news-title  { font-size: 14px; font-weight: 400; color: #1a1a1a; line-height: 1.45; }
     .news-source {
       font-size: 10px; color: #aaa; letter-spacing: 2px;
-      text-transform: uppercase; margin-top: 3px;
+      text-transform: uppercase; margin-top: 4px;
     }
 
     /* ── Fade in ───────────────────────────────── */
@@ -150,10 +234,17 @@
 
   <!-- TOP LEFT: Clock -->
   <div class="top-left module">
-    <div class="clock-time" id="clock-time">--:--</div>
+    <div class="clock-time">
+      <span id="clock-hm">--:--</span><span class="clock-ampm" id="clock-ampm"></span>
+    </div>
     <div class="clock-date" id="clock-date"></div>
     <div class="clock-week" id="clock-week"></div>
-    <div class="clock-sun"  id="clock-sun"></div>
+  </div>
+
+  <!-- TOP CENTER: Phillies -->
+  <div class="top-center module">
+    <div class="module-header phillies-header">Phillies</div>
+    <div id="phillies"></div>
   </div>
 
   <!-- TOP RIGHT: Weather -->
@@ -186,7 +277,7 @@
 
 </div>
 <script>
-// ── CONFIG — edit these to customize ────────────────────────
+// ── CONFIG ───────────────────────────────────────────────────
 const CONFIG = {
   lat: 39.9526,
   lon: -75.1652,
@@ -217,15 +308,15 @@ const CONFIG = {
 
 // ── WMO code → emoji + label ─────────────────────────────────
 function wmoInfo(code) {
-  if (code === 0)        return { icon: '☀️',  label: 'Clear' };
-  if (code <= 2)         return { icon: '🌤️',  label: 'Partly Cloudy' };
-  if (code === 3)        return { icon: '☁️',  label: 'Overcast' };
-  if (code <= 48)        return { icon: '🌫️',  label: 'Fog' };
-  if (code <= 57)        return { icon: '🌦️',  label: 'Drizzle' };
-  if (code <= 67)        return { icon: '🌧️',  label: 'Rain' };
-  if (code <= 77)        return { icon: '❄️',  label: 'Snow' };
-  if (code <= 82)        return { icon: '🌦️',  label: 'Showers' };
-  if (code <= 99)        return { icon: '⛈️',  label: 'Thunderstorm' };
+  if (code === 0)  return { icon: '☀️',  label: 'Clear' };
+  if (code <= 2)   return { icon: '🌤️',  label: 'Partly Cloudy' };
+  if (code === 3)  return { icon: '☁️',  label: 'Overcast' };
+  if (code <= 48)  return { icon: '🌫️',  label: 'Fog' };
+  if (code <= 57)  return { icon: '🌦️',  label: 'Drizzle' };
+  if (code <= 67)  return { icon: '🌧️',  label: 'Rain' };
+  if (code <= 77)  return { icon: '❄️',  label: 'Snow' };
+  if (code <= 82)  return { icon: '🌦️',  label: 'Showers' };
+  if (code <= 99)  return { icon: '⛈️',  label: 'Thunderstorm' };
   return { icon: '🌡️', label: 'Unknown' };
 }
 
@@ -240,16 +331,14 @@ function updateClock() {
   const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTHS = ['January','February','March','April','May','June',
                   'July','August','September','October','November','December'];
-
   const startOfYear = new Date(now.getFullYear(), 0, 1);
   const week = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
 
-  document.getElementById('clock-time').textContent =
-    `${h}:${m} ${ampm}`;
-  document.getElementById('clock-date').textContent =
+  document.getElementById('clock-hm').textContent   = `${h}:${m}`;
+  document.getElementById('clock-ampm').textContent  = ampm;
+  document.getElementById('clock-date').textContent  =
     `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
-  document.getElementById('clock-week').textContent =
-    `Week ${week}`;
+  document.getElementById('clock-week').textContent  = `Week ${week}`;
 }
 setInterval(updateClock, 1000);
 updateClock();
@@ -276,11 +365,11 @@ async function loadWeather() {
     document.getElementById('weather-feels').textContent = `Feels like ${Math.round(cur.apparent_temperature)}°`;
 
     document.getElementById('forecast').innerHTML = daily.time.map((t, i) => {
-      const d     = new Date(t + 'T12:00:00');
-      const day   = i === 0 ? 'Today' : i === 1 ? 'Tomorrow'
-                  : d.toLocaleDateString('en-US', { weekday: 'short' });
+      const d   = new Date(t + 'T12:00:00');
+      const day = i === 0 ? 'Today' : i === 1 ? 'Tomorrow'
+                : d.toLocaleDateString('en-US', { weekday: 'short' });
       const { icon: fi } = wmoInfo(daily.weather_code[i]);
-      const hi    = Math.round(daily.temperature_2m_max[i]);
+      const hi  = Math.round(daily.temperature_2m_max[i]);
       return `<div class="forecast-row">
         <span class="forecast-day">${day}</span>
         <span class="forecast-icon">${fi}</span>
@@ -293,6 +382,114 @@ async function loadWeather() {
 }
 loadWeather();
 setInterval(loadWeather, 10 * 60 * 1000);
+
+// ── Phillies — MLB Stats API (free, no key) ───────────────────
+async function loadPhillies() {
+  try {
+    const today = new Date();
+    const fmt   = d => d.toISOString().slice(0, 10);
+    const past  = new Date(today); past.setDate(past.getDate() - 3);
+    const ahead = new Date(today); ahead.setDate(ahead.getDate() + 3);
+
+    const url = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=143`
+      + `&startDate=${fmt(past)}&endDate=${fmt(ahead)}&hydrate=linescore`;
+
+    const data      = await fetch(url).then(r => r.json());
+    const allDates  = data.dates || [];
+    const allGames  = allDates.flatMap(d => d.games.map(g => ({ ...g, dateStr: d.date })));
+
+    const todayStr     = fmt(today);
+    const todayGames   = allGames.filter(g => g.dateStr === todayStr);
+    const pastGames    = allGames.filter(g => g.dateStr < todayStr).reverse();
+    const futureGames  = allGames.filter(g => g.dateStr > todayStr);
+
+    const display  = todayGames[0] || pastGames[0];
+    const nextGame = futureGames[0];
+    const el       = document.getElementById('phillies');
+
+    if (!display && !nextGame) {
+      el.innerHTML = '<div class="phillies-status">No games found</div>';
+      return;
+    }
+
+    if (!display && nextGame) {
+      const opp      = nextGame.teams?.home?.team?.id === 143 ? nextGame.teams?.away : nextGame.teams?.home;
+      const oppAbbr  = opp?.team?.abbreviation || '???';
+      const gameTime = nextGame.gameDate
+        ? new Date(nextGame.gameDate).toLocaleString('en-US',
+            { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: CONFIG.timezone })
+        : '';
+      el.innerHTML = `
+        <div class="phillies-upcoming">
+          <div class="phillies-upcoming-teams">PHI vs ${oppAbbr}</div>
+          <div class="phillies-upcoming-time">${gameTime}</div>
+        </div>`;
+      return;
+    }
+
+    const status    = display.status?.detailedState || '';
+    const isLive    = status === 'In Progress';
+    const isFinal   = status.includes('Final') || status.includes('Game Over');
+    const isPreview = status === 'Preview' || status === 'Scheduled';
+
+    const home     = display.teams?.home;
+    const away     = display.teams?.away;
+    const phi      = home?.team?.id === 143 ? home : away;
+    const opp      = home?.team?.id === 143 ? away : home;
+
+    const phiScore = phi?.score ?? '–';
+    const oppScore = opp?.score ?? '–';
+    const oppAbbr  = opp?.team?.abbreviation || opp?.team?.name?.slice(0, 3).toUpperCase() || '???';
+    const record   = phi?.leagueRecord ? `${phi.leagueRecord.wins}–${phi.leagueRecord.losses}` : '';
+
+    const phiWin   = isFinal && Number(phiScore) > Number(oppScore);
+    const phiLoss  = isFinal && Number(phiScore) < Number(oppScore);
+    const phiClass = phiWin ? 'win' : phiLoss ? 'loss' : '';
+
+    const inning   = display.linescore?.currentInning || '';
+    const half     = display.linescore?.inningHalf || '';
+    const liveStr  = inning ? `${half === 'Top' ? '▲' : '▼'} ${inning}` : 'Live';
+
+    let statusLine = isFinal ? 'Final' : isLive ? liveStr : isPreview ? 'Today' : status;
+    if (isPreview && display.gameDate) {
+      const t = new Date(display.gameDate).toLocaleTimeString('en-US',
+        { hour: 'numeric', minute: '2-digit', timeZone: CONFIG.timezone });
+      statusLine = `Today · ${t}`;
+    }
+
+    let html = `
+      <div class="phillies-matchup">
+        <div class="phillies-team">
+          <div class="phillies-abbr">PHI</div>
+          <div class="phillies-score ${phiClass}">${phiScore}</div>
+        </div>
+        <div class="phillies-sep">·</div>
+        <div class="phillies-team">
+          <div class="phillies-abbr">${oppAbbr}</div>
+          <div class="phillies-score">${oppScore}</div>
+        </div>
+      </div>
+      <div class="phillies-status">${statusLine}</div>
+      ${record ? `<div class="phillies-record">${record}</div>` : ''}`;
+
+    if (!todayGames.length && nextGame) {
+      const nextOpp  = nextGame.teams?.home?.team?.id === 143 ? nextGame.teams?.away : nextGame.teams?.home;
+      const nextAbbr = nextOpp?.team?.abbreviation || '???';
+      const nextDate = nextGame.gameDate
+        ? new Date(nextGame.gameDate).toLocaleDateString('en-US',
+            { weekday: 'short', month: 'short', day: 'numeric', timeZone: CONFIG.timezone })
+        : '';
+      html += `<div class="phillies-next">Next: vs ${nextAbbr} · ${nextDate}</div>`;
+    }
+
+    el.innerHTML = html;
+  } catch (e) {
+    console.error('Phillies error:', e);
+    document.getElementById('phillies').innerHTML = '<div class="phillies-status">—</div>';
+  }
+}
+loadPhillies();
+setInterval(loadPhillies, 5 * 60 * 1000);
 
 // ── Compliments ───────────────────────────────────────────────
 function updateCompliment() {
