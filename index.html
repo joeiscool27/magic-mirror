@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirror</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,700;1,300&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #fafafa;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Raleway', sans-serif;
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mirror {
+      display: grid;
+      grid-template-columns: 320px 1fr 380px;
+      grid-template-rows: auto 1fr auto;
+      height: 100vh;
+      padding: 40px;
+      gap: 0 20px;
+    }
+
+    .top-left   { grid-column: 1; grid-row: 1; }
+    .top-right  { grid-column: 3; grid-row: 1; text-align: right; }
+    .mid-center { grid-column: 2; grid-row: 2; display: flex; align-items: center; justify-content: center; }
+    .bot-left   { grid-column: 1; grid-row: 3; }
+    .bot-right  { grid-column: 3; grid-row: 3; text-align: right; }
+
+    /* ── Module header ─────────────────────────── */
+    .module-header {
+      color: #8b6e3d;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(139,110,61,0.4);
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* ── Clock ─────────────────────────────────── */
+    .clock-time {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 64px;
+      font-weight: 300;
+      letter-spacing: 3px;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+    .clock-date {
+      font-size: 14px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #777;
+      margin-top: 6px;
+    }
+    .clock-week {
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 3px;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .clock-sun {
+      font-size: 10px;
+      color: #999;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ── Weather ───────────────────────────────── */
+    .weather-icon  { font-size: 48px; line-height: 1; }
+    .weather-temp  { font-size: 28px; font-weight: 400; color: #1a1a1a; margin-top: 4px; }
+    .weather-desc  {
+      font-size: 11px; color: #777; font-weight: 300;
+      text-transform: uppercase; letter-spacing: 2px; margin-top: 2px;
+    }
+    .weather-feels { font-size: 12px; color: #999; margin-top: 2px; }
+
+    .forecast-row {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #1a1a1a;
+      padding: 3px 0;
+      font-weight: 300;
+    }
+    .forecast-day  { width: 80px; color: #777; text-align: left; }
+    .forecast-icon { width: 24px; text-align: center; }
+    .forecast-temp { width: 46px; text-align: right; }
+
+    /* ── Compliment ────────────────────────────── */
+    .compliment {
+      font-size: 32px;
+      font-weight: 300;
+      font-style: italic;
+      color: #1a1a1a;
+      letter-spacing: 1px;
+      text-align: center;
+      line-height: 1.3;
+      text-shadow: 0 0 40px rgba(139,110,61,0.15);
+      transition: opacity 1s ease;
+    }
+
+    /* ── Calendar ──────────────────────────────── */
+    .cal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .cal-title { font-size: 14px; font-weight: 400; color: #333; flex: 1; padding-right: 10px; }
+    .cal-date  { font-size: 12px; color: #8b6e3d; font-weight: 300; white-space: nowrap; }
+
+    /* ── News ──────────────────────────────────── */
+    .news-item {
+      border-right: 2px solid rgba(139,110,61,0.3);
+      padding-right: 12px;
+      margin-bottom: 14px;
+    }
+    .news-title  { font-size: 14px; font-weight: 400; color: #1a1a1a; line-height: 1.3; }
+    .news-source {
+      font-size: 10px; color: #aaa; letter-spacing: 2px;
+      text-transform: uppercase; margin-top: 3px;
+    }
+
+    /* ── Fade in ───────────────────────────────── */
+    .module { animation: fadeInUp 0.8s ease both; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="mirror">
+
+  <!-- TOP LEFT: Clock -->
+  <div class="top-left module">
+    <div class="clock-time" id="clock-time">--:--</div>
+    <div class="clock-date" id="clock-date"></div>
+    <div class="clock-week" id="clock-week"></div>
+    <div class="clock-sun"  id="clock-sun"></div>
+  </div>
+
+  <!-- TOP RIGHT: Weather -->
+  <div class="top-right module">
+    <div class="module-header">Philadelphia</div>
+    <div class="weather-icon"  id="weather-icon">—</div>
+    <div class="weather-temp"  id="weather-temp">--°</div>
+    <div class="weather-desc"  id="weather-desc"></div>
+    <div class="weather-feels" id="weather-feels"></div>
+    <div class="module-header" style="margin-top:18px;">Forecast</div>
+    <div id="forecast"></div>
+  </div>
+
+  <!-- MID CENTER: Compliment -->
+  <div class="mid-center module">
+    <div class="compliment" id="compliment"></div>
+  </div>
+
+  <!-- BOT LEFT: Calendar -->
+  <div class="bot-left module">
+    <div class="module-header">EA Events</div>
+    <div id="calendar"></div>
+  </div>
+
+  <!-- BOT RIGHT: News -->
+  <div class="bot-right module">
+    <div class="module-header">News</div>
+    <div id="news"></div>
+  </div>
+
+</div>
+<script>
+// ── CONFIG — edit these to customize ────────────────────────
+const CONFIG = {
+  lat: 39.9526,
+  lon: -75.1652,
+  timezone: 'America/New_York',
+
+  events: [
+    { title: 'EA: Memorial Day (Holiday)', date: 'May 25' },
+    { title: 'EA: Faculty Dev & Closing',  date: 'Jun 8'  },
+    { title: 'EA: Commencement',           date: 'Jun 11' },
+  ],
+
+  compliments: [
+    "You're doing great.",
+    "Stay curious.",
+    "Make today count.",
+    "Keep building.",
+    "One step at a time.",
+    "You've got this.",
+    "Make it happen.",
+    "Sharp mind, sharp work.",
+  ],
+
+  newsFeeds: [
+    { name: 'BBC',   url: 'https://feeds.bbci.co.uk/news/rss.xml' },
+    { name: 'ESPN',  url: 'https://www.espn.com/espn/rss/news'    },
+  ],
+};
+
+// ── WMO code → emoji + label ─────────────────────────────────
+function wmoInfo(code) {
+  if (code === 0)        return { icon: '☀️',  label: 'Clear' };
+  if (code <= 2)         return { icon: '🌤️',  label: 'Partly Cloudy' };
+  if (code === 3)        return { icon: '☁️',  label: 'Overcast' };
+  if (code <= 48)        return { icon: '🌫️',  label: 'Fog' };
+  if (code <= 57)        return { icon: '🌦️',  label: 'Drizzle' };
+  if (code <= 67)        return { icon: '🌧️',  label: 'Rain' };
+  if (code <= 77)        return { icon: '❄️',  label: 'Snow' };
+  if (code <= 82)        return { icon: '🌦️',  label: 'Showers' };
+  if (code <= 99)        return { icon: '⛈️',  label: 'Thunderstorm' };
+  return { icon: '🌡️', label: 'Unknown' };
+}
+
+// ── Clock ─────────────────────────────────────────────────────
+function updateClock() {
+  const now  = new Date();
+  let h      = now.getHours();
+  const m    = String(now.getMinutes()).padStart(2, '0');
+  const ampm = h >= 12 ? 'pm' : 'am';
+  h = h % 12 || 12;
+
+  const DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+
+  document.getElementById('clock-time').textContent =
+    `${h}:${m} ${ampm}`;
+  document.getElementById('clock-date').textContent =
+    `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
+  document.getElementById('clock-week').textContent =
+    `Week ${week}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── Weather — Open-Meteo (free, no API key) ───────────────────
+async function loadWeather() {
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast`
+      + `?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}`
+      + `&current=temperature_2m,apparent_temperature,weather_code`
+      + `&daily=weather_code,temperature_2m_max,temperature_2m_min`
+      + `&temperature_unit=fahrenheit`
+      + `&timezone=${CONFIG.timezone}`
+      + `&forecast_days=5`;
+
+    const data  = await fetch(url).then(r => r.json());
+    const cur   = data.current;
+    const daily = data.daily;
+    const { icon, label } = wmoInfo(cur.weather_code);
+
+    document.getElementById('weather-icon').textContent  = icon;
+    document.getElementById('weather-temp').textContent  = `${Math.round(cur.temperature_2m)}°F`;
+    document.getElementById('weather-desc').textContent  = label;
+    document.getElementById('weather-feels').textContent = `Feels like ${Math.round(cur.apparent_temperature)}°`;
+
+    document.getElementById('forecast').innerHTML = daily.time.map((t, i) => {
+      const d     = new Date(t + 'T12:00:00');
+      const day   = i === 0 ? 'Today' : i === 1 ? 'Tomorrow'
+                  : d.toLocaleDateString('en-US', { weekday: 'short' });
+      const { icon: fi } = wmoInfo(daily.weather_code[i]);
+      const hi    = Math.round(daily.temperature_2m_max[i]);
+      return `<div class="forecast-row">
+        <span class="forecast-day">${day}</span>
+        <span class="forecast-icon">${fi}</span>
+        <span class="forecast-temp">${hi}°</span>
+      </div>`;
+    }).join('');
+  } catch (e) {
+    console.error('Weather error:', e);
+  }
+}
+loadWeather();
+setInterval(loadWeather, 10 * 60 * 1000);
+
+// ── Compliments ───────────────────────────────────────────────
+function updateCompliment() {
+  const el = document.getElementById('compliment');
+  el.style.opacity = 0;
+  setTimeout(() => {
+    const list = CONFIG.compliments;
+    el.textContent = list[Math.floor(Math.random() * list.length)];
+    el.style.opacity = 1;
+  }, 1000);
+}
+updateCompliment();
+setInterval(updateCompliment, 30 * 1000);
+
+// ── Calendar ──────────────────────────────────────────────────
+document.getElementById('calendar').innerHTML = CONFIG.events.map(e => `
+  <div class="cal-row">
+    <span class="cal-title">${e.title}</span>
+    <span class="cal-date">${e.date}</span>
+  </div>`).join('');
+
+// ── News — via allorigins CORS proxy ──────────────────────────
+async function loadNews() {
+  const items = [];
+  for (const feed of CONFIG.newsFeeds) {
+    try {
+      const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`;
+      const data  = await fetch(proxy).then(r => r.json());
+      const xml   = new DOMParser().parseFromString(data.contents, 'text/xml');
+      xml.querySelectorAll('item').forEach((item, i) => {
+        if (i < 2) items.push({
+          title:  item.querySelector('title')?.textContent || '',
+          source: feed.name,
+        });
+      });
+    } catch (e) {
+      console.error(`News error (${feed.name}):`, e);
+    }
+  }
+  document.getElementById('news').innerHTML = items.map(item => `
+    <div class="news-item">
+      <div class="news-title">${item.title}</div>
+      <div class="news-source">${item.source}</div>
+    </div>`).join('');
+}
+loadNews();
+setInterval(loadNews, 15 * 60 * 1000);
+
+// ── Auto-reload every 5 min (picks up GitHub Pages deploys) ───
+setInterval(() => location.reload(), 5 * 60 * 1000);
+</script>
+</body>
+</html>
