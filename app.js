@@ -22,8 +22,9 @@ const CONFIG = {
   ],
 
   newsFeeds: [
-    { name: 'BBC',  url: 'https://feeds.bbci.co.uk/news/rss.xml' },
-    { name: 'ESPN', url: 'https://www.espn.com/espn/rss/news'    },
+    { name: 'BBC',  url: 'https://feeds.bbci.co.uk/news/rss.xml'                   },
+    { name: 'ESPN', url: 'https://www.espn.com/espn/rss/news'                      },
+    { name: 'EA',   url: 'https://www.episcopalacademy.org/fs/rss/news'            },
   ],
 };
 
