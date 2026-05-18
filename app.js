@@ -155,28 +155,39 @@ async function loadPhillies() {
       if (lr) record = `${lr.wins}–${lr.losses}`;
     }
 
-    const rowsHtml = completed.map(g => {
+    const recent3 = completed.slice(0, 3);
+
+    const cardsHtml = recent3.map(g => {
       const isHome  = g.teams?.home?.team?.id === 143;
       const phi     = isHome ? g.teams.home : g.teams.away;
       const opp     = isHome ? g.teams.away : g.teams.home;
       const phiS    = phi?.score ?? '?';
       const oppS    = opp?.score ?? '?';
       const won     = Number(phiS) > Number(oppS);
-      const oppAbbr = TEAM_ABBR[opp?.team?.id] || opp?.team?.abbreviation || '???';
+      const oppId   = opp?.team?.id;
+      const oppAbbr = TEAM_ABBR[oppId] || '???';
 
-      const gameDate = new Date(g.gameDate || g.dateStr + 'T00:00:00');
-      const dateLabel = gameDate.toLocaleDateString('en-US',
-        { month: 'short', day: 'numeric', timeZone: CONFIG.timezone });
+      const dateLabel = new Date(g.gameDate || g.dateStr + 'T00:00:00')
+        .toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: CONFIG.timezone });
 
-      const scoreStr = won
-        ? `<span class="p-score-win">${phiS}–${oppS}</span>`
-        : `<span class="p-score-loss">${phiS}–${oppS}</span>`;
-
-      return `<div class="p-row">
-        <span class="p-wl ${won ? 'w' : 'l'}">${won ? 'W' : 'L'}</span>
-        <span class="p-team">${oppAbbr}</span>
-        ${scoreStr}
-        <span class="p-date">${dateLabel}</span>
+      return `<div class="score-card ${won ? 'win' : ''}">
+        <div class="card-badge ${won ? 'w' : 'l'}">${won ? 'WIN' : 'LOSS'}</div>
+        <div class="card-matchup">
+          <div class="card-side">
+            <span class="card-num ${won ? 'hi' : 'lo'}">${phiS}</span>
+            <img class="card-logo" src="https://www.mlbstatic.com/team-logos/143.svg"
+                 onerror="this.style.visibility='hidden'" alt="PHI">
+            <span class="card-abbr">PHI</span>
+          </div>
+          <span class="card-sep">–</span>
+          <div class="card-side">
+            <span class="card-num">${oppS}</span>
+            <img class="card-logo" src="https://www.mlbstatic.com/team-logos/${oppId}.svg"
+                 onerror="this.style.visibility='hidden'" alt="${oppAbbr}">
+            <span class="card-abbr">${oppAbbr}</span>
+          </div>
+        </div>
+        <div class="card-date">${dateLabel}</div>
       </div>`;
     }).join('');
 
@@ -184,7 +195,7 @@ async function loadPhillies() {
     if (tonightGame) {
       const isHome    = tonightGame.teams?.home?.team?.id === 143;
       const opp       = isHome ? tonightGame.teams.away : tonightGame.teams.home;
-      const oppAbbr   = TEAM_ABBR[opp?.team?.id] || opp?.team?.abbreviation || '???';
+      const oppAbbr   = TEAM_ABBR[opp?.team?.id] || '???';
       const isLive    = tonightGame.status?.detailedState === 'In Progress';
 
       if (isLive) {
@@ -193,23 +204,23 @@ async function loadPhillies() {
         const inning    = tonightGame.linescore?.currentInning || '';
         const half      = tonightGame.linescore?.inningHalf || '';
         const inningStr = inning ? `${half === 'Top' ? '▲' : '▼'}${inning}` : 'Live';
-        tonightHtml = `<div class="p-tonight">${inningStr} &nbsp; PHI ${phi?.score ?? '–'} · ${oppAbbr} ${oppTeam?.score ?? '–'}</div>`;
+        tonightHtml = `<div class="score-tonight">${inningStr} &nbsp; PHI ${phi?.score ?? '–'} · ${oppAbbr} ${oppTeam?.score ?? '–'}</div>`;
       } else {
         const gameTime = tonightGame.gameDate
           ? new Date(tonightGame.gameDate).toLocaleTimeString('en-US',
               { hour: 'numeric', minute: '2-digit', timeZone: CONFIG.timezone })
           : '';
-        tonightHtml = `<div class="p-tonight">Tonight vs ${oppAbbr} · ${gameTime}</div>`;
+        tonightHtml = `<div class="score-tonight">Tonight vs ${oppAbbr} · ${gameTime}</div>`;
       }
     }
 
     document.getElementById('phillies').innerHTML = `
-      ${record ? `<div class="p-record">${record}</div>` : ''}
-      ${rowsHtml || '<div class="p-record">No recent results</div>'}
+      ${record ? `<div class="score-record">${record}</div>` : ''}
+      <div class="score-cards">${cardsHtml || '<div class="score-record">No recent results</div>'}</div>
       ${tonightHtml}`;
   } catch (e) {
     console.error('Phillies error:', e);
-    document.getElementById('phillies').innerHTML = '<div class="p-record">—</div>';
+    document.getElementById('phillies').innerHTML = '<div class="score-record">—</div>';
   }
 }
 loadPhillies();
