@@ -1,16 +1,26 @@
 :root {
-  --bg:          #ffffff;
-  --bg-module:   #f0f3f7;
-  --accent:      #0a1628;
-  --accent-dim:  rgba(10, 22, 40, 0.15);
-  --text:        #0a1628;
-  --text-muted:  #3a5070;
-  --text-dim:    #7a90a8;
+  --bg:          #f7f5f1;
+  --bg-module:   #eeecea;
+  --accent:      #0d1f3c;
+  --accent-dim:  rgba(13, 31, 60, 0.12);
+  --text:        #0d1f3c;
+  --text-muted:  #3d5878;
+  --text-dim:    #8a9db5;
   --red:         #b4001e;
-  --loss:        #8a9db8;
+  --loss:        #8a9db5;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Masthead stripe ───────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 5px;
+  background: var(--accent);
+  z-index: 100;
+}
 
 body {
   background: var(--bg);
@@ -28,7 +38,7 @@ body {
   grid-template-columns: 300px 1fr 360px;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
-  padding: 48px;
+  padding: 52px 48px 48px;
   gap: 0 24px;
 }
 
@@ -51,11 +61,25 @@ body {
   margin-bottom: 12px;
 }
 
+/* Left-column headers get a left accent bar */
+.top-left .module-header,
+.bot-left .module-header {
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
+}
+
+/* Right-column headers get a right accent bar */
+.top-right .module-header,
+.bot-right .module-header {
+  border-right: 3px solid var(--accent);
+  padding-right: 10px;
+}
+
 /* ── Clock ─────────────────────────────────────── */
 .clock-time {
   font-family: 'Roboto Mono', monospace;
   font-size: 72px;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 2px;
   color: var(--text);
   line-height: 1;
@@ -64,7 +88,7 @@ body {
 .clock-ampm {
   font-family: 'Roboto Mono', monospace;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--text-muted);
   letter-spacing: 2px;
   margin-left: 8px;
@@ -108,7 +132,7 @@ body {
 }
 .forecast-day  { width: 90px; color: var(--text-muted); text-align: left; }
 .forecast-icon { width: 26px; text-align: center; }
-.forecast-temp { width: 48px; text-align: right; color: var(--text); }
+.forecast-temp { width: 48px; text-align: right; color: var(--text); font-weight: 600; }
 
 /* ── Phillies ──────────────────────────────────── */
 .p-record {
@@ -123,7 +147,7 @@ body {
   display: flex;
   align-items: baseline;
   gap: 12px;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid var(--accent-dim);
 }
 .p-row:last-of-type { border-bottom: none; }
@@ -147,10 +171,11 @@ body {
   width: 36px;
   flex-shrink: 0;
 }
-.p-score-win  { font-family: 'Roboto Mono', monospace; font-size: 15px; color: var(--accent); flex: 1; }
-.p-score-loss { font-family: 'Roboto Mono', monospace; font-size: 15px; color: var(--text-muted); flex: 1; }
+.p-score-win  { font-family: 'Roboto Mono', monospace; font-size: 15px; color: var(--accent); font-weight: 400; flex: 1; }
+.p-score-loss { font-family: 'Roboto Mono', monospace; font-size: 15px; color: var(--text-muted); font-weight: 400; flex: 1; }
 
 .p-date {
+  font-family: 'Roboto Mono', monospace;
   font-size: 11px;
   color: var(--text-dim);
   white-space: nowrap;
@@ -166,7 +191,7 @@ body {
   border-top: 1px solid var(--accent-dim);
 }
 
-/* ── EA Crest watermark (mid-center, behind compliment) ─── */
+/* ── EA Crest watermark ────────────────────────── */
 .crest-wrap {
   position: relative;
   display: flex;
@@ -178,7 +203,7 @@ body {
 }
 .crest-img {
   position: absolute;
-  width: 220px;
+  width: 180px;
   opacity: 0.07;
   pointer-events: none;
   user-select: none;
@@ -188,20 +213,35 @@ body {
 .ea-logo {
   display: block;
   width: 120px;
-  opacity: 0.7;
+  opacity: 0.8;
   margin-top: 18px;
+}
+
+/* ── Pull-quote (compliment wrapper) ───────────── */
+.pull-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  z-index: 1;
+}
+.pull-rule {
+  width: 280px;
+  height: 1px;
+  background: var(--accent-dim);
 }
 
 /* ── Compliment ────────────────────────────────── */
 .compliment {
-  font-size: 40px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 46px;
   font-weight: 400;
   font-style: italic;
   color: var(--text);
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   text-align: center;
-  line-height: 1.3;
-  text-shadow: none;
+  line-height: 1.25;
   transition: opacity 1s ease;
 }
 
@@ -214,16 +254,22 @@ body {
   border-bottom: 1px solid var(--accent-dim);
 }
 .cal-title { font-size: 16px; font-weight: 600; color: var(--text); flex: 1; padding-right: 12px; }
-.cal-date  { font-size: 14px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+.cal-date  {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+  white-space: nowrap;
+}
 
 /* ── News ──────────────────────────────────────── */
 .news-item {
   border-left: 2px solid var(--accent-dim);
   padding-left: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   text-align: left;
 }
-.news-title  { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.45; }
+.news-title  { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.5; }
 .news-source {
   font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
   font-weight: 600; text-transform: uppercase; margin-top: 5px;
