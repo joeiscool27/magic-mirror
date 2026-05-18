@@ -1,13 +1,13 @@
 :root {
-  --bg:          #0a1628;
-  --bg-module:   #0f1e35;
-  --accent:      #c9a84c;
-  --accent-dim:  rgba(201, 168, 76, 0.25);
-  --text:        #e8e4d8;
-  --text-muted:  #7a8fa8;
-  --text-dim:    #3d4f68;
-  --red:         #c0392b;
-  --loss:        #3d4f68;
+  --bg:          #ffffff;
+  --bg-module:   #f0f3f7;
+  --accent:      #0a1628;
+  --accent-dim:  rgba(10, 22, 40, 0.15);
+  --text:        #0a1628;
+  --text-muted:  #3a5070;
+  --text-dim:    #7a90a8;
+  --red:         #b4001e;
+  --loss:        #8a9db8;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,7 +55,7 @@ body {
 .clock-time {
   font-family: 'Roboto Mono', monospace;
   font-size: 72px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 2px;
   color: var(--text);
   line-height: 1;
@@ -64,7 +64,7 @@ body {
 .clock-ampm {
   font-family: 'Roboto Mono', monospace;
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--text-muted);
   letter-spacing: 2px;
   margin-left: 8px;
@@ -72,7 +72,7 @@ body {
 }
 .clock-date {
   font-size: 17px;
-  font-weight: 300;
+  font-weight: 600;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -80,7 +80,7 @@ body {
 }
 .clock-week {
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 3px;
   color: var(--text-dim);
   text-transform: uppercase;
@@ -89,12 +89,12 @@ body {
 
 /* ── Weather ───────────────────────────────────── */
 .weather-icon  { font-size: 52px; line-height: 1; }
-.weather-temp  { font-size: 36px; font-weight: 400; color: var(--text); margin-top: 6px; }
+.weather-temp  { font-size: 36px; font-weight: 600; color: var(--text); margin-top: 6px; }
 .weather-desc  {
-  font-size: 13px; color: var(--text-muted); font-weight: 300;
+  font-size: 13px; color: var(--text-muted); font-weight: 600;
   text-transform: uppercase; letter-spacing: 2px; margin-top: 4px;
 }
-.weather-feels { font-size: 13px; color: var(--text-dim); margin-top: 3px; }
+.weather-feels { font-size: 13px; color: var(--text-dim); font-weight: 400; margin-top: 3px; }
 
 .forecast-row {
   display: flex;
@@ -104,7 +104,7 @@ body {
   font-size: 15px;
   color: var(--text);
   padding: 4px 0;
-  font-weight: 300;
+  font-weight: 400;
 }
 .forecast-day  { width: 90px; color: var(--text-muted); text-align: left; }
 .forecast-icon { width: 26px; text-align: center; }
@@ -113,9 +113,9 @@ body {
 /* ── Phillies ──────────────────────────────────── */
 .p-record {
   font-size: 13px;
-  color: var(--accent);
+  color: var(--text-muted);
   letter-spacing: 3px;
-  font-weight: 300;
+  font-weight: 600;
   margin-bottom: 10px;
   text-align: center;
 }
@@ -124,7 +124,7 @@ body {
   align-items: baseline;
   gap: 12px;
   padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid var(--accent-dim);
 }
 .p-row:last-of-type { border-bottom: none; }
 
@@ -179,7 +179,7 @@ body {
 .crest-img {
   position: absolute;
   width: 220px;
-  opacity: 0.06;
+  opacity: 0.07;
   pointer-events: none;
   user-select: none;
 }
@@ -188,21 +188,20 @@ body {
 .ea-logo {
   display: block;
   width: 120px;
-  opacity: 0.55;
+  opacity: 0.7;
   margin-top: 18px;
-  filter: brightness(0) invert(1);
 }
 
 /* ── Compliment ────────────────────────────────── */
 .compliment {
   font-size: 40px;
-  font-weight: 300;
+  font-weight: 400;
   font-style: italic;
   color: var(--text);
   letter-spacing: 1px;
   text-align: center;
   line-height: 1.3;
-  text-shadow: 0 0 60px rgba(201,168,76,0.12);
+  text-shadow: none;
   transition: opacity 1s ease;
 }
 
@@ -212,22 +211,22 @@ body {
   justify-content: space-between;
   align-items: baseline;
   padding: 7px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid var(--accent-dim);
 }
-.cal-title { font-size: 16px; font-weight: 400; color: var(--text); flex: 1; padding-right: 12px; }
-.cal-date  { font-size: 14px; color: var(--accent); font-weight: 300; white-space: nowrap; }
+.cal-title { font-size: 16px; font-weight: 600; color: var(--text); flex: 1; padding-right: 12px; }
+.cal-date  { font-size: 14px; color: var(--text-muted); font-weight: 600; white-space: nowrap; }
 
 /* ── News ──────────────────────────────────────── */
 .news-item {
   border-left: 2px solid var(--accent-dim);
   padding-left: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   text-align: left;
 }
-.news-title  { font-size: 16px; font-weight: 400; color: var(--text); line-height: 1.45; }
+.news-title  { font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.45; }
 .news-source {
-  font-size: 10px; color: var(--text-dim); letter-spacing: 2px;
-  text-transform: uppercase; margin-top: 5px;
+  font-size: 11px; color: var(--text-dim); letter-spacing: 2px;
+  font-weight: 600; text-transform: uppercase; margin-top: 5px;
 }
 
 /* ── Fade in ───────────────────────────────────── */
