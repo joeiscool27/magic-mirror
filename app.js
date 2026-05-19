@@ -223,8 +223,127 @@ async function loadPhillies() {
     document.getElementById('phillies').innerHTML = '<div class="score-record">—</div>';
   }
 }
-loadPhillies();
-setInterval(loadPhillies, 5 * 60 * 1000);
+
+// ── Season detection ─────────────────────────────────────────
+const SEASONS = {
+  eagles:  { start: { m: 9,  d: 1 }, end: { m: 1, d: 31 } }, // Sep-Jan
+  sixers:  { start: { m: 10, d: 1 }, end: { m: 4, d: 30 } }, // Oct-Apr
+  phillies: { start: { m: 3, d: 1 }, end: { m: 10, d: 31 } }, // Mar-Oct
+  union:   { start: { m: 2, d: 1 }, end: { m: 11, d: 30 } }, // Feb-Nov
+};
+
+function isTeamInSeason(team) {
+  const now = new Date();
+  const m = now.getMonth() + 1; // 1-12
+  const d = now.getDate();      // 1-31
+  const season = SEASONS[team];
+  if (!season) return false;
+
+  const { start, end } = season;
+  if (start.m <= end.m) {
+    return m >= start.m && m <= end.m && (m > start.m || d >= start.d) && (m < end.m || d <= end.d);
+  } else {
+    return (m >= start.m && (m > start.m || d >= start.d)) || (m <= end.m && (m < end.m || d <= end.d));
+  }
+}
+
+function populateSportsGrid() {
+  const teams = ['eagles', 'sixers', 'phillies', 'union'];
+  for (const team of teams) {
+    const card = document.getElementById(`${team}-card`);
+    if (card) {
+      if (isTeamInSeason(team)) {
+        card.classList.add('visible');
+      } else {
+        card.classList.remove('visible');
+      }
+    }
+  }
+}
+
+// ── Eagles — NFL (via ESPN feed) ───────────────────────────
+async function loadEagles() {
+  try {
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.espn.com/espn/rss/nfl/news?tc=nfl')}`;
+    const data = await fetch(proxy).then(r => r.json());
+    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+
+    let eaglesScore = '';
+    xml.querySelectorAll('item').forEach(item => {
+      const title = item.querySelector('title')?.textContent || '';
+      if (title.toLowerCase().includes('eagles')) {
+        eaglesScore = title;
+      }
+    });
+
+    document.getElementById('eagles').innerHTML = eaglesScore
+      ? `<div style="font-size: 12px; color: var(--text-muted);">${eaglesScore.substring(0, 80)}...</div>`
+      : '<div style="color: var(--text-dim);">No recent updates</div>';
+  } catch (e) {
+    console.error('Eagles error:', e);
+    document.getElementById('eagles').innerHTML = '<div style="color: var(--text-dim);">—</div>';
+  }
+}
+
+// ── Sixers — NBA (via ESPN feed) ────────────────────────
+async function loadSixers() {
+  try {
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.espn.com/espn/rss/nba/news')}`;
+    const data = await fetch(proxy).then(r => r.json());
+    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+
+    let sixersScore = '';
+    xml.querySelectorAll('item').forEach(item => {
+      const title = item.querySelector('title')?.textContent || '';
+      if (title.toLowerCase().includes('76ers') || title.toLowerCase().includes('sixers')) {
+        sixersScore = title;
+      }
+    });
+
+    document.getElementById('sixers').innerHTML = sixersScore
+      ? `<div style="font-size: 12px; color: var(--text-muted);">${sixersScore.substring(0, 80)}...</div>`
+      : '<div style="color: var(--text-dim);">No recent updates</div>';
+  } catch (e) {
+    console.error('Sixers error:', e);
+    document.getElementById('sixers').innerHTML = '<div style="color: var(--text-dim);">—</div>';
+  }
+}
+
+// ── Union — MLS (via ESPN feed) ────────────────────────────
+async function loadUnion() {
+  try {
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.espn.com/espn/rss/soccer/news?tc=mls')}`;
+    const data = await fetch(proxy).then(r => r.json());
+    const xml = new DOMParser().parseFromString(data.contents, 'text/xml');
+
+    let unionScore = '';
+    xml.querySelectorAll('item').forEach(item => {
+      const title = item.querySelector('title')?.textContent || '';
+      if (title.toLowerCase().includes('philadelphia union') || title.toLowerCase().includes('union')) {
+        unionScore = title;
+      }
+    });
+
+    document.getElementById('union').innerHTML = unionScore
+      ? `<div style="font-size: 12px; color: var(--text-muted);">${unionScore.substring(0, 80)}...</div>`
+      : '<div style="color: var(--text-dim);">No recent updates</div>';
+  } catch (e) {
+    console.error('Union error:', e);
+    document.getElementById('union').innerHTML = '<div style="color: var(--text-dim);">—</div>';
+  }
+}
+
+// ── Load all sports and show based on season ────────────────
+function loadAllSports() {
+  populateSportsGrid();
+  if (isTeamInSeason('eagles'))   loadEagles();
+  if (isTeamInSeason('sixers'))   loadSixers();
+  if (isTeamInSeason('phillies')) loadPhillies();
+  if (isTeamInSeason('union'))    loadUnion();
+}
+
+loadAllSports();
+setInterval(loadAllSports, 5 * 60 * 1000);
 
 // ── Compliments ───────────────────────────────────────────────
 function updateCompliment() {
