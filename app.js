@@ -24,7 +24,6 @@ const CONFIG = {
   newsFeeds: [
     { name: 'BBC',  url: 'https://feeds.bbci.co.uk/news/rss.xml'                   },
     { name: 'ESPN', url: 'https://www.espn.com/espn/rss/news'                      },
-    { name: 'EA',   url: 'https://www.episcopalacademy.org/fs/rss/news'            },
   ],
 };
 
@@ -374,7 +373,7 @@ async function loadNews() {
       const data  = await fetch(proxy).then(r => r.json());
       const xml   = new DOMParser().parseFromString(data.contents, 'text/xml');
       xml.querySelectorAll('item').forEach((item, i) => {
-        if (i < 2) items.push({
+        if (i < 1) items.push({
           title:  item.querySelector('title')?.textContent || '',
           source: feed.name,
         });
